@@ -1,0 +1,41 @@
+## Q1
+[1,2,3,4,5,6,7,8,9,10].each { |x| puts x }
+
+## Q2
+[1,2,3,4,5,6,7,8,9,10].each { |x| puts x if x > 5 }
+
+## Q3
+new_array = [1,2,3,4,5,6,7,8,9,10].select { |x| x > 5 }
+
+## Q4
+new_array << 11
+new_array.unshift(0)
+
+## Q5
+new_array.delete_at(10)
+new_array << 3
+
+## Q6
+new_array.uniq!
+
+## Q7
+An array holds a list of single values
+A hash holds a list of key-value pairs
+
+## Q8
+new_hash_1_8 = {:a => 1, :b => 2, :c => 3, :d => 4}
+new_hash_1_9 = {a: 1, b: 2, c: 3, d: 4}
+
+## Q9
+new_hash[:b]
+
+## Q10
+new_hash.store(e,5)
+
+## Q13
+new_hash.delete_if { |k, v| v < 3.5 }
+
+## Q14
+Yes, and yes.
+hash_eg = {fish: ['gold','puffer','sword'], flowers: ['sun','may','self-raising']}
+array_eg = [{uncle: 'bob'},{aunt: 'agony'},{father: 'christmas'},{mother: 'nature'}]
