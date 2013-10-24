@@ -1,4 +1,4 @@
-## Define @deck of Cards
+## Define $deck of Cards
 $rawdeck = 
 	[2, :clubs, "2 of Clubs"],
 	[3, :clubs, "3 of Clubs"],
@@ -60,49 +60,50 @@ class CardDeck < Array
 	end
 end
 
+$dealername = "Lara"
 
 ## Deal 
 
 class Deal
 
 	def self.new
-		@deck = CardDeck.new
-		@hand_dealer = Array.new
-		@hand_player = Array.new
+		$deck = CardDeck.new
+		$hand_dealer = Array.new
+		$hand_player = Array.new
 
-		@hand_dealer << @deck[0].delete_at(0)
-		@hand_player << @deck[0].delete_at(0)
-		@hand_dealer << @deck[0].delete_at(0)
-		@hand_player << @deck[0].delete_at(0)
+		$hand_dealer << $deck[0].delete_at(0)
+		$hand_player << $deck[0].delete_at(0)
+		$hand_dealer << $deck[0].delete_at(0)
+		$hand_player << $deck[0].delete_at(0)
 
-		@hand_player_sum = 0;
+		$hand_player_sum = 0;
 
-		puts "Lara has dealt your cards and her own"
+		puts "#{$dealername} has dealt your cards and her own"
 		puts "Your cards are:"
-		@hand_player_sum = 0		
-		@hand_player.each do |value, suit, name|
+		$hand_player_sum = 0		
+		$hand_player.each do |value, suit, name|
 			puts name
-			value.is_a?(Fixnum) ? @hand_player_sum += value : @hand_player_sum += -1000
+			value.is_a?(Fixnum) ? $hand_player_sum += value : $hand_player_sum += -1000
 		end
-		puts "...giving you a total hand of #{@hand_player_sum}"
+		puts "...giving you a total hand of #{$hand_player_sum}"
 
 ##		puts "\n------------\nDEALER HAND\n------------\n"
-##		@hand_dealer.each { |value,suit,name| puts name }
+##		$hand_dealer.each { |value,suit,name| puts name }
 ##		puts "\n------------\nPLAYER HAND\n------------\n"
-##		@hand_player.each { |value,suit,name| puts name}
+##		$hand_player.each { |value,suit,name| puts name}
 		
 		Deal.whatnext
 	end
 
 	def self.hit
-				@hand_player << @deck[0].delete_at(0)
+				$hand_player << $deck[0].delete_at(0)
 				puts "Your cards are:"
-				@hand_player_sum = 0
-				@hand_player.each do |value, suit, name|
+				$hand_player_sum = 0
+				$hand_player.each do |value, suit, name|
 					puts name
-					value.is_a?(Fixnum) ? @hand_player_sum += value : @hand_player_sum += -1000
+					value.is_a?(Fixnum) ? $hand_player_sum += value : $hand_player_sum += -1000
 				end
-				puts "...giving you a total hand of #{@hand_player_sum}"
+				puts "...giving you a total hand of #{$hand_player_sum}"
 				Deal.whatnext
 	end
 
@@ -124,16 +125,13 @@ class Deal
 	end
 
 	def self.stay
-		puts "Lara's hand looks like this..."
-		@hand_dealer_sum = 0		
-		@hand_player.each do |value, suit, name|
+		puts "#{$dealername}'s hand looks like this..."
+		$hand_dealer_sum = 0		
+		$hand_dealer.each do |value, suit, name|
 			puts name
-			value.is_a?(Fixnum) ? @hand_player_sum += value : @hand_player_sum += -1000
+			value.is_a?(Fixnum) ? $hand_dealer_sum += value : $hand_dealer_sum += -1000
 		end
-		puts "...giving her a total hand of #{@hand_dealer_sum}"
-
-
-
+		puts "...giving her a total hand of #{$hand_dealer_sum}"
 
 	end
 
@@ -148,7 +146,7 @@ puts "Please tell me your name:"
 
 playername = gets.chomp.capitalize
 
-puts "Thanks #{playername}, your dealer's name is Lara"
+puts "Thanks #{playername}, your dealer's name is #{$dealername}"
 puts "Are you ready to get started? (y/n)"
 
 ## Get permission to start the game
