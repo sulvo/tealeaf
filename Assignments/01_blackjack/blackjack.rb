@@ -12,7 +12,7 @@ $rawdeck =
 	[10, :clubs, "Jack of Clubs"],
 	[10, :clubs, "Queen of Clubs"],
 	[10, :clubs, "King of Clubs"],
-	["A", :clubs, "Ace of Clubs"],
+	[:ace, :clubs, "Ace of Clubs"],
 	[2, :diamonds, "2 of Diamonds"],
 	[3, :diamonds, "3 of Diamonds"],
 	[4, :diamonds, "4 of Diamonds"],
@@ -25,7 +25,7 @@ $rawdeck =
 	[10, :diamonds, "Jack of Diamonds"],
 	[10, :diamonds, "Queen of Diamonds"],
 	[10, :diamonds, "King of Diamonds"],
-	["A", :diamonds, "Ace of Diamonds"],
+	[:ace, :diamonds, "Ace of Diamonds"],
 	[2, :hearts, "2 of Hearts"],
 	[3, :hearts, "3 of Hearts"],
 	[4, :hearts, "4 of Hearts"],
@@ -38,7 +38,7 @@ $rawdeck =
 	[10, :hearts, "Jack of Hearts"],
 	[10, :hearts, "Queen of Hearts"],
 	[10, :hearts, "King of Hearts"],
-	["A", :hearts, "Ace of Hearts"],
+	[:ace, :hearts, "Ace of Hearts"],
 	[2, :spades, "2 of Spades"],
 	[3, :spades, "3 of Spades"],
 	[4, :spades, "4 of Spades"],
@@ -51,7 +51,7 @@ $rawdeck =
 	[10, :spades, "Jack of Spades"],
 	[10, :spades, "Queen of Spades"],
 	[10, :spades, "King of Spades"],
-	["A", :spades, "Ace of Spades"]
+	[:ace, :spades, "Ace of Spades"]
 
 
 class CardDeck < Array
@@ -71,10 +71,11 @@ class Deal
 		$hand_dealer = Array.new
 		$hand_player = Array.new
 
-		$hand_dealer << $deck[0].delete_at(0)
 		$hand_player << $deck[0].delete_at(0)
 		$hand_dealer << $deck[0].delete_at(0)
 		$hand_player << $deck[0].delete_at(0)
+		$hand_dealer << $deck[0].delete_at(0)
+
 
 		$hand_player_sum = 0;
 
@@ -116,7 +117,7 @@ class Deal
 
 	def self.whatnext(waiting=false)
 		if waiting == true
-			puts "that wasn't a valid input - type H or S"
+			puts "That wasn't a valid input - type H or S"
 		else
 			puts "What would you like to do now?"
 		end

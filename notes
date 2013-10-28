@@ -7,3 +7,6 @@ In my blackjack.rb, why do I have to target "deck" with two levels [0][1]
 What are the differences in the way you treat a Module and a Class? eg. Why did I have to make "Deal" a Class - to me a module would make more sense as it's just a set of actions.
 
 Review the uses of different variable types - $global, local, @instance and @@class.
+
+Research the use of "pop" and "product" to simplify my code.
+
