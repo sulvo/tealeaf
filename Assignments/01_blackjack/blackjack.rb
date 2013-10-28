@@ -64,6 +64,24 @@ $dealername = "Lara"
 
 ## Deal 
 
+def calc_total(user)
+
+	case
+	 when user == "player"
+	 	hand = "$hand_player"
+	 	sum = "$hand_player_sum"
+	 when user == "dealer"
+	 	hand = "$hand_dealer"
+	 	sum = "$hand_dealer_sum"
+	 else user_sum == "$hand_player_sum"
+	end
+
+
+
+end
+
+
+
 class Deal
 
 	def self.new
@@ -128,7 +146,7 @@ class Deal
 			when "stay", "s"
 				Deal.stay
 			else
-				Deal.whatnext
+				Deal.whatnext(true)
 		end
 	end
 
