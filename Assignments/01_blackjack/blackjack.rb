@@ -104,7 +104,14 @@ class Deal
 					value.is_a?(Fixnum) ? $hand_player_sum += value : $hand_player_sum += -1000
 				end
 				puts "...giving you a total hand of #{$hand_player_sum}"
-				Deal.whatnext
+				
+				if $hand_player_sum == 21
+					puts "21! You Win!!"
+				elsif $hand_player_sum > 21
+					puts "Bust! You lose!"
+				else
+					Deal.whatnext
+				end
 	end
 
 	def self.whatnext(waiting=false)
@@ -124,6 +131,14 @@ class Deal
 		end
 	end
 
+	def self.finalise
+		if ($hand_dealer_sum > $hand_player_sum) && ($hand_dealer_sum <= 21)
+			puts "With a total of #{$hand_player_sum}, YOU LOSE!"
+		elsif ($hand_player_sum > $hand_dealer_sum) && ($hand_player_sum <= 21)
+			puts "With a total of #{$hand_player_sum}, YOU WIN!"
+		end
+	end
+
 	def self.stay
 		puts "#{$dealername}'s hand looks like this..."
 		$hand_dealer_sum = 0		
@@ -132,7 +147,31 @@ class Deal
 			value.is_a?(Fixnum) ? $hand_dealer_sum += value : $hand_dealer_sum += -1000
 		end
 		puts "...giving her a total hand of #{$hand_dealer_sum}"
+		
+		if $hand_dealer_sum < 17
+			Deal.dealerhit
+		else
+			puts "Lara stays"
+			Deal.finalise
+		end
+	end
 
+	def self.dealerhit
+		puts "Lara hits"
+		$hand_dealer << $deck[0].delete_at(0)
+		puts "Her hand looks like this"
+		$hand_dealer_sum = 0
+		$hand_dealer.each do |value, suit, name|
+			puts name
+			value.is_a?(Fixnum) ? $hand_dealer_sum += value : $hand_dealer_sum += -1000
+		end
+
+		if $hand_dealer_sum < 17
+			Deal.dealerhit
+		else
+			puts "Lara stays with a hand total of #{$hand_dealer_sum}"
+			Deal.finalise
+		end
 	end
 
 
