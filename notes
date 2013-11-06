@@ -10,3 +10,12 @@ Review the uses of different variable types - $global, local, @instance and @@cl
 
 Research the use of "pop" and "product" to simplify my code.
 
+Learn more about while loops - NEXT and BREAK keywords.
+
+include vs extend
+
+differences between classes and modules
+
+How can I instantiate a variable from within a method, without making it "Global"
+
+require/gems/etc

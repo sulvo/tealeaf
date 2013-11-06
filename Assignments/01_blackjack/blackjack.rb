@@ -53,6 +53,8 @@ $rawdeck =
 	[10, :spades, "King of Spades"],
 	[:ace, :spades, "Ace of Spades"]
 
+$hand_player_sum = 0
+$hand_dealer_sum = 0
 
 class CardDeck < Array
 	def initialize
@@ -60,25 +62,9 @@ class CardDeck < Array
 	end
 end
 
-$dealername = "Lara"
 
-## Deal 
-
-def calc_total(user)
-
-	case
-	 when user == "player"
-	 	hand = "$hand_player"
-	 	sum = "$hand_player_sum"
-	 when user == "dealer"
-	 	hand = "$hand_dealer"
-	 	sum = "$hand_dealer_sum"
-	 else user_sum == "$hand_player_sum"
-	end
-
-
-
-end
+dealers = ["Noelene", "Raylene", "Praline", "Shaneen", "Doreen"].shuffle!
+$dealername = dealers[0]
 
 
 
@@ -94,46 +80,63 @@ class Deal
 		$hand_player << $deck[0].delete_at(0)
 		$hand_dealer << $deck[0].delete_at(0)
 
-
 		$hand_player_sum = 0;
-
+		puts ""
 		puts "#{$dealername} has dealt your cards and her own"
-		puts "Your cards are:"
-		$hand_player_sum = 0		
-		$hand_player.each do |value, suit, name|
-			puts name
-			value.is_a?(Fixnum) ? $hand_player_sum += value : $hand_player_sum += -1000
-		end
-		puts "...giving you a total hand of #{$hand_player_sum}"
-
-##		puts "\n------------\nDEALER HAND\n------------\n"
-##		$hand_dealer.each { |value,suit,name| puts name }
-##		puts "\n------------\nPLAYER HAND\n------------\n"
-##		$hand_player.each { |value,suit,name| puts name}
-		
+		Deal.playerhand
 		Deal.whatnext
 	end
 
 	def self.hit
-				$hand_player << $deck[0].delete_at(0)
-				puts "Your cards are:"
-				$hand_player_sum = 0
-				$hand_player.each do |value, suit, name|
-					puts name
-					value.is_a?(Fixnum) ? $hand_player_sum += value : $hand_player_sum += -1000
+		puts ""
+		$hand_player << $deck[0].delete_at(0)
+		Deal.playerhand
+		if $hand_player_sum == 21
+			puts "21!"
+			Deal.finalise
+		elsif $hand_player_sum > 21
+			puts "Bust!"
+			Deal.finalise
+		else
+			Deal.whatnext
+		end
+	end
+
+	def self.playerhand
+		puts ""
+		puts "Your cards are:"
+		$hand_player_sum = 0		
+		$hand_player.each do |value, suit, name|
+			puts name
+			if value.is_a?(Fixnum)
+				$hand_player_sum += value
+			elsif value == :ace && $hand_player_sum <= 10
+				$hand_player_sum += 11
+			elsif value == :ace && $hand_player_sum > 10
+				$hand_player_sum += 1
+			else puts "Error001"
+			end
 				end
-				puts "...giving you a total hand of #{$hand_player_sum}"
-				
-				if $hand_player_sum == 21
-					puts "21! You Win!!"
-				elsif $hand_player_sum > 21
-					puts "Bust! You lose!"
-				else
-					Deal.whatnext
-				end
+		puts "...giving you a total hand of #{$hand_player_sum}"
+	end
+
+	def self.dealerhand()
+		$hand_dealer_sum = 0		
+		$hand_dealer.each do |value, suit, name|
+			puts name
+			if value.is_a?(Fixnum)
+				$hand_dealer_sum += value
+			elsif value == :ace && $hand_dealer_sum <= 10
+				$hand_dealer_sum += 11
+			elsif value == :ace && $hand_dealer_sum > 10
+				$hand_dealer_sum += 1
+			else puts "Error002"
+			end
+		end
 	end
 
 	def self.whatnext(waiting=false)
+		puts ""
 		if waiting == true
 			puts "That wasn't a valid input - type H or S"
 		else
@@ -151,44 +154,59 @@ class Deal
 	end
 
 	def self.finalise
-		if ($hand_dealer_sum > $hand_player_sum) && ($hand_dealer_sum <= 21)
-			puts "With a total of #{$hand_player_sum}, YOU LOSE!"
-		elsif ($hand_player_sum > $hand_dealer_sum) && ($hand_player_sum <= 21)
+		puts ""
+		if (($hand_player_sum > $hand_dealer_sum) && ($hand_player_sum <= 21)) || ($hand_player_sum == 21)
 			puts "With a total of #{$hand_player_sum}, YOU WIN!"
+			puts ""
+		elsif ($hand_dealer_sum > $hand_player_sum) && ($hand_dealer_sum <= 21)
+			puts "With a total of #{$hand_player_sum}, YOU LOSE!"
+			puts ""
+		elsif ($hand_player_sum > 21)
+			puts "You got too cocky"
+			puts ""
+		elsif ($hand_dealer_sum > 21)
+			puts "#{$dealername} busts with a total of #{$hand_dealer_sum}"
+			puts ""
+		else puts "Stalemate!"
+			puts ""
+		end
+		puts "Play again?"
+		case gets.chomp.downcase
+		when "yes", "y", ""
+			Deal.new
+		else exit
 		end
 	end
 
 	def self.stay
+		puts ""
 		puts "#{$dealername}'s hand looks like this..."
-		$hand_dealer_sum = 0		
-		$hand_dealer.each do |value, suit, name|
-			puts name
-			value.is_a?(Fixnum) ? $hand_dealer_sum += value : $hand_dealer_sum += -1000
-		end
+		puts ""
+		Deal.dealerhand
 		puts "...giving her a total hand of #{$hand_dealer_sum}"
-		
-		if $hand_dealer_sum < 17
-			Deal.dealerhit
-		else
-			puts "Lara stays"
-			Deal.finalise
-		end
+		puts ""
+		Deal.dealernextstep
 	end
 
 	def self.dealerhit
-		puts "Lara hits"
+		puts ""
+		puts "#{$dealername} hits"
 		$hand_dealer << $deck[0].delete_at(0)
-		puts "Her hand looks like this"
-		$hand_dealer_sum = 0
-		$hand_dealer.each do |value, suit, name|
-			puts name
-			value.is_a?(Fixnum) ? $hand_dealer_sum += value : $hand_dealer_sum += -1000
-		end
+		puts ""
+		puts "Her hand looks like this:"
+		Deal.dealerhand
+		Deal.dealernextstep
+	end
 
-		if $hand_dealer_sum < 17
+	def self.dealernextstep
+		puts ""
+		if ($hand_dealer_sum < 17) || ($hand_dealer_sum < $hand_player_sum)
+			sleep(1)
 			Deal.dealerhit
+		elsif $hand_dealer_sum > 21
+			Deal.finalise
 		else
-			puts "Lara stays with a hand total of #{$hand_dealer_sum}"
+			puts "#{$dealername} stays with a hand total of #{$hand_dealer_sum}"
 			Deal.finalise
 		end
 	end
@@ -205,7 +223,8 @@ puts "Please tell me your name:"
 playername = gets.chomp.capitalize
 
 puts "Thanks #{playername}, your dealer's name is #{$dealername}"
-puts "Are you ready to get started? (y/n)"
+puts ""
+puts "Are you ready to get started?"
 
 ## Get permission to start the game
 
