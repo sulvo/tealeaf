@@ -68,6 +68,8 @@ $dealername = dealers[0]
 
 
 
+
+
 class Deal
 
 	def self.new

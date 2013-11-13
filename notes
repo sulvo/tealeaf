@@ -16,6 +16,4 @@ include vs extend
 
 differences between classes and modules
 
-How can I instantiate a variable from within a method, without making it "Global"
-
 require/gems/etc
