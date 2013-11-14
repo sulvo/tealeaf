@@ -1,0 +1,8 @@
+<div class="jumbotron">
+	<h1>Hi there <%= session[:user] %>!</h1>
+	<p>Welcome to Blackjack</p>
+	<p>Your dealer's name is <%= session[:dealer] %></p>
+	<form action="/play" method="post">
+		<button type="submit" name="startgame" value="true">Deal!</input>
+	</form>
+</div>
